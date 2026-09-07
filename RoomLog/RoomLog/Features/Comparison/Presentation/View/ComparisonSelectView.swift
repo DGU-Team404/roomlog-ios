@@ -27,11 +27,6 @@ struct ComparisonSelectView: View {
     var body: some View {
         let pathStore = di.resolve(PathStore.self)
         VStack(spacing: 0) {
-            // 집 선택
-            if !viewModel.houses.isEmpty {
-                houseSelector
-            }
-
             stepIndicator
                 .padding(.vertical, 16)
 
@@ -69,6 +64,12 @@ struct ComparisonSelectView: View {
             }
         }
         .animation(.easeInOut(duration: 0.3), value: showToast)
+        // 일반 콘텐츠로 두면 내비 바의 scroll edge effect가 캡슐 터치를 가로채서 safeAreaBar로 배치
+        .safeAreaBar(edge: .top, spacing: 0) {
+            if !viewModel.houses.isEmpty {
+                houseSelector
+            }
+        }
         .navigationTitle("비교할 방 선택")
         .navigationBarTitleDisplayMode(.inline)
         .task {

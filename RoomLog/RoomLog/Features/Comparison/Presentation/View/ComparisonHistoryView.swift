@@ -20,10 +20,6 @@ struct ComparisonHistoryView: View {
     var body: some View {
         let pathStore = di.resolve(PathStore.self)
         VStack(spacing: 0) {
-            if !viewModel.houses.isEmpty {
-                houseSelector
-            }
-
             if viewModel.isLoading {
                 Spacer()
                 ProgressView()
@@ -44,6 +40,12 @@ struct ComparisonHistoryView: View {
         }
         .safeAreaInset(edge: .bottom) {
             newComparisonButton(pathStore: pathStore)
+        }
+        // 일반 콘텐츠로 두면 내비 바의 scroll edge effect가 캡슐 터치를 가로채서 safeAreaBar로 배치
+        .safeAreaBar(edge: .top, spacing: 0) {
+            if !viewModel.houses.isEmpty {
+                houseSelector
+            }
         }
         .navigationTitle("내 방 비교")
         .navigationBarTitleDisplayMode(.inline)
